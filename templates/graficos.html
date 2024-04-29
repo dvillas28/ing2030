@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Grafico</title>
+</head>
+
+<body>
+    <div>
+        <h2> Cerro Navia - Dia {{ dia }} </h2>
+        <canvas id="myChart"></canvas>
+    </div>
+    <script>
+
+        // para cargar los json
+        var labels = JSON.parse('{{ dataset.labels | tojson }}');
+        var data = JSON.parse('{{ dataset.data | tojson }}');
+        console.log(labels)
+        console.log(data)
+        // Your data for line chart
+        var lineData = {
+            labels: labels,
+            datasets: [{
+                label: 'Line Data',
+                data: data,
+                borderColor: 'rgba(255, 99, 132, 1)', // Color of the line
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the area under the line
+                borderWidth: 1, // Width of the line
+                fill: false // Fill the area under the line
+            }]
+        };
+
+        // Create the line chart
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: lineData,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

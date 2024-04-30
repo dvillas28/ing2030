@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Grafico</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/graph_style.css') }}">
 </head>
 
 <body>
-    <div>
-        <h2> Cerro Navia - Dia {{ dia }} </h2>
+    <div class="chart-container">
+        <h2> Consumo Electrico en Planta Cerro Navia - {{ fecha }} </h2>
         <canvas id="myChart"></canvas>
     </div>
     <script>
@@ -19,11 +20,12 @@
         var data = JSON.parse('{{ dataset.data | tojson }}');
         console.log(labels)
         console.log(data)
+
         // Your data for line chart
         var lineData = {
             labels: labels,
             datasets: [{
-                label: 'Line Data',
+                label: 'Consumo',
                 data: data,
                 borderColor: 'rgba(255, 99, 132, 1)', // Color of the line
                 backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the area under the line
@@ -37,13 +39,31 @@
         var myChart = new Chart(ctx, {
             type: 'line',
             data: lineData,
+
             options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
                 scales: {
-                    yAxes: [{
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Hora'
+                        }
+                    },
+
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Consumo de Energia [KW/h]'
+                        },
+
                         ticks: {
                             beginAtZero: true
-                        }
-                    }]
+                        },
+                    }
                 }
             }
         });

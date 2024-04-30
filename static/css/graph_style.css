@@ -1,0 +1,8 @@
+/* aqui van los estilos de los graficos */
+/* de momento la idea es tener 2 graficos, el de consumo en ese dia, y el de cerro navia*/
+
+
+.chart-container {
+    width: 50%;
+    height: 400px;
+}

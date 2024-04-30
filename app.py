@@ -1,9 +1,11 @@
 from flask import Flask, render_template
-from backend import dicts
+from backend import utils
+from backend import data_paths
 
 app = Flask(__name__)
 
-data = dicts.create_data('backend/data/cerro_navia.csv')
+# static data from cerro_navia.csv
+cn_data = utils.create_data(data_paths.CERRO_NAVIA)
 
 
 @app.route('/')
@@ -11,17 +13,18 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/cerro_navia_<int:i>')
+@app.route('/dia_<int:i>')
 def mostrar_grafico(i):
-    day = dicts.get_day_data(i, data)
+    data_of_the_day = utils.get_day_data(i, cn_data)
 
     dataset = {
-        "labels": day[0],
-        "data": day[1]
+        "labels": data_of_the_day["hours"],
+        "data": data_of_the_day["costs"]
     }
 
     print(dataset)
-    return render_template('graficos.html', dataset=dataset, dia=i)
+
+    return render_template('graficos.html', dataset=dataset, fecha=data_of_the_day["fecha"])
 
 
 if __name__ == '__main__':

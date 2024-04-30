@@ -1,8 +1,9 @@
-
 from datetime import datetime
 
 
-def dia_absoluto(dia, mes, año):
+def dia_absoluto(dia: int, mes: int, año: int) -> int:
+    # 1 de enero es el día 1
+    # 31 de diciembre es el día 365 o 366 (depende si es año bisiesto)
     fecha = datetime(year=año, month=mes, day=dia)
     primer_dia_del_año = datetime(year=año, month=1, day=1)
     numero_dia_absoluto = (fecha - primer_dia_del_año).days + 1
@@ -30,26 +31,39 @@ def create_data(path: str) -> dict:
         hora = int(linea[2])
         costo = float(linea[3].replace(',', '.'))
 
-        data[(dia_abs, hora)] = costo
+        data[(dia_abs, hora)] = [fecha, costo]
 
     return data
 
 
-def get_day_data(day: int, data: dict) -> list:
+def pretify_hour(hour: int) -> str:
+    # hora 1: 00:00
+    # hora 24: 23:00
+
+    if 1 <= hour <= 9:
+        return f"0{hour - 1}:00"
+    else:
+        return f"{hour - 1}:00"
+
+
+def get_day_data(day: int, data: dict) -> dict:
 
     hours = []
     costs = []
 
     for key, value in data.items():
         if key[0] == day:
-            hours.append(str(key[1]))
-            costs.append(value)
+            hours.append(pretify_hour(key[1]))
+            costs.append(value[1])
+            fecha: str = value[0]
 
-    return [hours, costs]
+        elif key[0] > day:
+            # ya nos pasamos, no queremos más datos
+            break
+
+    return {"hours": hours, "costs": costs, "fecha": fecha}
 
 
 if __name__ == '__main__':
     data = create_data('data/cerro_navia.csv')
-
     enero_1 = get_day_data(1, data)
-    print(enero_1)

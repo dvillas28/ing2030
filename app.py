@@ -15,6 +15,9 @@ def index():
 
 @app.route('/dia_<int:i>')
 def mostrar_grafico(i):
+    if i == 0 or i == 366:
+        return render_template('index.html')
+
     data_of_the_day = utils.get_day_data(i, cn_data)
 
     dataset = {
@@ -24,7 +27,7 @@ def mostrar_grafico(i):
 
     print(dataset)
 
-    return render_template('graficos.html', dataset=dataset, fecha=data_of_the_day["fecha"])
+    return render_template('graficos.html', dataset=dataset, fecha=data_of_the_day["fecha"], dia=i)
 
 
 if __name__ == '__main__':

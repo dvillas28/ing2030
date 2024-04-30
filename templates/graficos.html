@@ -9,10 +9,14 @@
 </head>
 
 <body>
+    <a href="/dia_{{ dia - 1 }}">previous</a>
+    <a href="/dia_{{ dia + 1 }}">next</a>
+
     <div class="chart-container">
         <h2> Consumo Electrico en Planta Cerro Navia - {{ fecha }} </h2>
         <canvas id="myChart"></canvas>
     </div>
+
     <script>
 
         // para cargar los json

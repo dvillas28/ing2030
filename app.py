@@ -14,7 +14,7 @@ consumo_data = utils.get_consumo_electrico(path=data_paths.CONSUMO_ELECTRICO,
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 
 @app.route('/dia_<int:i>')

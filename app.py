@@ -7,8 +7,9 @@ app = Flask(__name__)
 # static data from cerro_navia.csv
 cn_data = utils.get_generacion_electrico(data_paths.CERRO_NAVIA)
 
-consumo_data = utils.get_consumo_electrico(
-    data_paths.CONSUMO_ELECTRICO, data_paths.CERRO_NAVIA)
+# test data from consumo_electrico.csv
+consumo_data = utils.get_consumo_electrico(path=data_paths.CONSUMO_ELECTRICO,
+                                           path2=data_paths.CERRO_NAVIA)
 
 
 @app.route('/')

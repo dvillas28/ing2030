@@ -10,7 +10,7 @@ cn_data = utils.create_data(data_paths.CERRO_NAVIA)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 
 @app.route('/dia_<int:i>')

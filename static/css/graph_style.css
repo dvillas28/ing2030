@@ -2,7 +2,11 @@
 /* de momento la idea es tener 2 graficos, el de consumo en ese dia, y el de cerro navia*/
 
 
-.chart-container {
+.container {
+    display: flex;
+}
+
+.chart {
     width: 50%;
     height: 200px;
 }

@@ -12,65 +12,83 @@
     <a href="/dia_{{ dia - 1 }}">previous</a>
     <a href="/dia_{{ dia + 1 }}">next</a>
 
-    <div class="chart-container">
-        <h2> Consumo Electrico en Planta Cerro Navia - {{ fecha }} </h2>
-        <canvas id="myChart"></canvas>
+    <h2> {{ fecha }} </h2>
+
+    <div class="container">
+        <div class="chart"><canvas id="myChart1"></canvas></div>
+        <div class="chart"><canvas id="myChart2"></canvas></div>
     </div>
 
+
     <script>
+        // funcion para crear los graficos mas rapido
+        function createChart(elementId, datasetlabels, datasetData, titleLabel, xLabel, yLabel, color) {
+            // para cargar los json
+            var labels = JSON.parse(datasetlabels);
+            var data = JSON.parse(datasetData);
+            console.log(labels)
+            console.log(data)
 
-        // para cargar los json
-        var labels = JSON.parse('{{ dataset.labels | tojson }}');
-        var data = JSON.parse('{{ dataset.data | tojson }}');
-        console.log(labels)
-        console.log(data)
+            // Your data for line chart
+            var lineData = {
+                labels: labels,
+                datasets: [{
+                    label: titleLabel,
+                    data: data,
+                    borderColor: color, // Color of the line
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the area under the line
+                    borderWidth: 1, // Width of the line
+                    fill: false // Fill the area under the line
+                }]
+            };
 
-        // Your data for line chart
-        var lineData = {
-            labels: labels,
-            datasets: [{
-                label: 'Consumo',
-                data: data,
-                borderColor: 'rgba(255, 99, 132, 1)', // Color of the line
-                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the area under the line
-                borderWidth: 1, // Width of the line
-                fill: false // Fill the area under the line
-            }]
-        };
+            // Create the line chart
+            var ctx = document.getElementById(elementId).getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: lineData,
 
-        // Create the line chart
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: lineData,
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: xLabel
+                            }
+                        },
 
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Hora'
+                        y: {
+                            title: {
+                                display: true,
+                                text: yLabel
+                            },
+
+                            ticks: {
+                                beginAtZero: true
+                            },
                         }
-                    },
-
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Consumo de Energia [KW/h]'
-                        },
-
-                        ticks: {
-                            beginAtZero: true
-                        },
                     }
                 }
-            }
-        });
+            });
+        }
+
+
+        createChart(elementId = 'myChart1',
+            datasetlabels = '{{ dataset_cn.labels | tojson }}',
+            datasetData = '{{ dataset_cn.data | tojson }}',
+            titleLabel = '¿Que significaba este grafico (el de cerro navia)?',
+            xLabel = 'Hora',
+            yLabel = 'Consumo de Energia [KW/h]',
+            color = 'rgba(255, 99, 132, 1)')
+
+        createChart(elementId = 'myChart2',
+            datasetlabels = '{{ dataset_consumo.labels | tojson }}',
+            datasetData = '{{ dataset_consumo.data | tojson }}',
+            titleLabel = 'Consumo electrico en $USD',
+            xLabel = 'Hora',
+            yLabel = ' Precio [USD]',
+            color = 'rgba(0, 0, 255, 1)')
+
     </script>
 </body>
 

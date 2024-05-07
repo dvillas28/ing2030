@@ -1,8 +1,9 @@
 # import cells
-import gurobipy as gp
-from datetime import datetime
 import pandas as pd
+from datetime import datetime
 from gurobipy import GRB
+import gurobipy as gp
+import pickle
 
 
 def optimize():
@@ -156,4 +157,30 @@ def optimize():
 
 
 if __name__ == "__main__":
-    problema, x, z, I = optimize()
+    problema, X, Z, i = optimize()
+
+    problema.update()
+
+    # declarar los diccionarios
+    x = {}
+    z = {}
+    I = {}
+
+    for key, var in X.items():
+        x[key] = var.x
+
+    for key, var in Z.items():
+        z[key] = var.x
+
+    for key, var in i.items():
+        I[key] = var.x
+
+    resultados_serializados = {
+        "problema.objVal": problema.objVal,
+        "x": x,
+        "z": z,
+        "I": I
+    }
+
+    with open('data/resultados_modelo.pickle', 'wb') as file:
+        pickle.dump(resultados_serializados, file)

@@ -42,6 +42,10 @@ def mostrar_grafico(i):
                            dataset_cn=dataset_cn,
                            dataset_consumo=dataset_consumo)
 
+@app.route('/ahorro')
+def mostrar_ahorro(): 
+    return render_template('ahorro.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

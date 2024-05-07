@@ -17,7 +17,7 @@
         <nav class="navbar">
             <a href="#"></a>
             <a href="#">Mi Ahorro</a>
-            <a href="#">Mi Perfil</a>    
+            <a href="#">Mi Perfil</a>
         </nav>
     </header>
 
@@ -88,9 +88,9 @@
         createChart(elementId = 'myChart1',
             datasetlabels = '{{ dataset_cn.labels | tojson }}',
             datasetData = '{{ dataset_cn.data | tojson }}',
-            titleLabel = '¿Que significaba este grafico (el de cerro navia)?',
+            titleLabel = 'Costo en dolares del MW/h en Cerro Navia',
             xLabel = 'Hora',
-            yLabel = 'Consumo de Energia [KW/h]',
+            yLabel = 'USD/MWh',
             color = 'rgba(255, 99, 132, 1)')
 
         createChart(elementId = 'myChart2',
@@ -98,7 +98,7 @@
             datasetData = '{{ dataset_consumo.data | tojson }}',
             titleLabel = 'Consumo electrico en $USD',
             xLabel = 'Hora',
-            yLabel = ' Precio [USD]',
+            yLabel = ' USD',
             color = 'rgba(0, 0, 255, 1)')
 
     </script>

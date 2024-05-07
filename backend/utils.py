@@ -117,7 +117,8 @@ def get_consumo_electrico(path: str, path2: str) -> dict:
             # transformar a dato numerico
             new_valor = float(valor.replace(',', '.'))
 
-            data[(dia_abs, contador_hora)] = [fecha, new_valor]
+            # Dani: el Fernando me dijo actualizar este valor
+            data[(dia_abs, contador_hora)] = [fecha, new_valor/10]
 
             contador_hora += 1
 
@@ -129,12 +130,13 @@ if __name__ == '__main__':
     # enero_1 = get_day_data(1, data)
 
     cerro_navia = get_generacion_electrico('data/cerro_navia.csv')
-    consumo = get_consumo_electrico('data/consumo_electrico.csv')
+    consumo = get_consumo_electrico(
+        'data/consumo_electrico.csv', 'data/cerro_navia.csv')
 
-    for key, value in cerro_navia.items():
-        print(key, value)
+    # for key, value in cerro_navia.items():
+    #     print(key, value)
 
-    print()
+    # print()
 
     for key, value in consumo.items():
         print(key, value)

@@ -1,7 +1,61 @@
 /* aqui van los estilos de los graficos */
 /* de momento la idea es tener 2 graficos, el de consumo en ese dia, y el de cerro navia*/
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Oswald";
+}
+
+.header {
+  background-color: #9FBF2A;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: inline-block;
+  width: 100px; 
+  height: 50px; 
+
+}
+
+.navbar {
+  text-align: center;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 30px;
+  font-size: 20px; 
+  text-align: center;
+}
+
+.navbar a:hover {
+  background-color: #9FBF2A;
+}
+
+.grfico-consumo {
+  margin-top: 100px;
+  width: 700px;
+  height: 500px;
+  border: #9FBF2A;
+}
+
+.iframe-g1 {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+
+}
 
 
+/* graficos */
 .container {
     display: flex;
 }

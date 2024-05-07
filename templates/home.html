@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html leng="es">
   <head>
-    <title>Welcome</title>
+    <title>Home</title>
     <link rel="stylesheet" href="static/css/home.css">
   </head>
 
@@ -13,32 +13,10 @@
       <nav class="navbar">
           <a href="#"></a>
           <a href="#">Mi Ahorro</a>
-          <a href="#">Mi Consumo</a>
+          <a href="/dia_1">Mi Consumo</a>
           <a href="#">Mi Perfil</a>    
       </nav>
     </header>
-
-    <div class="grfico-consumo">
-      <h1> Mi Consumo</h1>
-      <iframe id="miFrame" src="/dia_1" class="iframe-g1"></iframe>
-    </div>
-
-  <script>
-    window.onload = function() {
-      var enlaces = document.querySelectorAll('div h1');
-      var iframe = document.getElementById('miFrame');
-      
-      enlaces.forEach(function(enlace) {
-        enlace.addEventListener('click', function(event) {
-          event.preventDefault();
-          var url = this.getAttribute('/dia_1');
-          iframe.src = url;
-        });
-      });
-    };
-  </script>
-
-
 
 
   </body>

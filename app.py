@@ -47,6 +47,10 @@ def mostrar_grafico(i):
                            dataset_cn=dataset_cn,
                            dataset_consumo=dataset_consumo)
 
+@app.route('/ahorro')
+def mostrar_ahorro(): 
+    return render_template('ahorro.html')
+
 
 @app.route('/ahorro_dia_<int:i>')
 def mostrar_ahorros(i):

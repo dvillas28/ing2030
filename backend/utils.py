@@ -125,6 +125,16 @@ def get_consumo_electrico(path: str, path2: str) -> dict:
     return data
 
 
+def get_day_data_of_results(day: int, data: dict) -> dict:
+    new_data = {}
+
+    for key, value in data.items():
+        if key[1] == day:
+            new_data[key[0]] = value
+
+    return new_data
+
+
 if __name__ == '__main__':
     # data = create_data('data/cerro_navia.csv')
     # enero_1 = get_day_data(1, data)

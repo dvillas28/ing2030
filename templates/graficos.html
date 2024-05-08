@@ -13,24 +13,34 @@
 <body>
 
     <header class="header">
-        <img src="static/img/logo.png" alt="logo">
+        <a href="/"><img src="static/img/logo.png" alt="logo"></a>
         <nav class="navbar">
-            <a href="#"></a>
             <a href="/ahorro">Mi Ahorro</a>
-            <a href="#">Mi Perfil</a>
+            <a href="#">Mi Perfil</a>    
         </nav>
     </header>
 
-    <a href="/dia_{{ dia - 1 }}">previous</a>
-    <a href="/dia_{{ dia + 1 }}">next</a>
+    
+    <div class="row1">
+        <div class="col1">
 
-    <h2> {{ fecha }} </h2>
+            <h2>Mi Consumo Electrico</h2>
 
-    <div class="container">
-        <div class="chart"><canvas id="myChart1"></canvas></div>
-        <div class="chart"><canvas id="myChart2"></canvas></div>
+            <div class="button-container">
+                <button class="button" onclick="window.location.href='/dia_{{ dia - 1 }}';">Previous</button>
+                <button class="button" onclick="window.location.href='/dia_{{ dia + 1 }}';">Next</button>
+            </div>
+
+            <h2>{{ fecha }}</h2>
+
+            <div class="container">
+                <div class="chart"><canvas id="myChart1"></canvas></div>
+                <div class="chart"><canvas id="myChart2"></canvas></div>
+            </div>
+            
+        </div>
     </div>
-
+    
 
     <script>
         // funcion para crear los graficos mas rapido
@@ -102,6 +112,14 @@
             color = 'rgba(0, 0, 255, 1)')
 
     </script>
+
+
+
+    <footer class="footer">
+        <p>2024 | grupo 69</p>
+    </footer>
+
+
 </body>
 
 </html>

@@ -10,12 +10,15 @@ def obtener_resultados(path: str) -> None:
     x = resultados["x"]
     z = resultados["z"]
     I = resultados["I"]
+    P = resultados["P"]
+    D = resultados["D"]
 
-    return problema, x, z, I
+    return problema, x, z, I, P, D
 
 
 if __name__ == "__main__":
-    problema, x, z, I = obtener_resultados('data/resultados_modelo.pickle')
+    problema, x, z, I, P, D = obtener_resultados(
+        'data/resultados_modelo.pickle')
 
     # imprimir los resultados
     T = range(1, 25)
@@ -26,6 +29,3 @@ if __name__ == "__main__":
     #     print(f"Valor de z({t}, {1}):", z[(t, 1)])
 
     # print("Valor óptimo:", problema)
-
-    for key, value in z.items():
-        print(key, value)

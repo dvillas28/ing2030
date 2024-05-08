@@ -153,11 +153,11 @@ def optimize():
     #         print(f"Valor de z({t}, {1}):", z[(t, 1)].x)
     # print("Valor óptimo:", problema.objVal)
 
-    return problema, x, z, I
+    return problema, x, z, I, P, D
 
 
 if __name__ == "__main__":
-    problema, X, Z, i = optimize()
+    problema, X, Z, i, p, d = optimize()
 
     problema.update()
 
@@ -165,6 +165,8 @@ if __name__ == "__main__":
     x = {}
     z = {}
     I = {}
+    P = {}
+    D = {}
 
     for key, var in X.items():
         x[key] = var.x
@@ -175,11 +177,19 @@ if __name__ == "__main__":
     for key, var in i.items():
         I[key] = var.x
 
+    for key, var in p.items():
+        P[key] = var
+
+    for key, var in d.items():
+        D[key] = var
+
     resultados_serializados = {
         "problema.objVal": problema.objVal,
         "x": x,
         "z": z,
-        "I": I
+        "I": I,
+        "P": P,
+        "D": D
     }
 
     with open('data/resultados_modelo.pickle', 'wb') as file:

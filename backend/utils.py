@@ -135,6 +135,60 @@ def get_day_data_of_results(day: int, data: dict) -> dict:
     return new_data
 
 
+def calcular_ahorro_anual(valor_optimo, P: dict, D: dict) -> dict:
+    """
+    Ahorro en el año completo
+    """
+    T = range(1, 25)  # Conjunto T: {1, 2, ..., 24}
+    K = range(1, 366)  # Conjunto K: {1, 2, ..., 365}
+
+    gasto = sum([D[(t, k)] * P[(t, k)] for t in T for k in K])
+    ahorro_anual = round(gasto - valor_optimo, 2)
+
+    ahorro_porcentual = round((ahorro_anual / gasto) * 100, 2)
+
+    return {"ahorro_anual": ahorro_anual, "ahorro_porcentual": ahorro_porcentual}
+
+
+def calcular_ahorro_diario(P: dict, D: dict, x: dict, z: dict, k_dia: int) -> dict:
+    """
+    Ahorro en el dia K
+    """
+    T = range(1, 25)  # Conjunto T: {1, 2, ..., 24}
+    K = range(1, 366)  # Conjunto K: {1, 2, ..., 365}
+
+    # el gasto en el dia k
+    gasto = sum([D[(t, k_dia)] * P[(t, k_dia)] for t in T])
+
+    # esto lo saque del modelo que mandaste
+    ahorro_diario = round(sum([(P[(t, k_dia)] * D[(t, k_dia)]) - (P[(t, k_dia)] * ((1 - x[(t, k_dia)]) * D[(t, k_dia)] - z[(t, k_dia)]))
+                               for t in T]), 2)
+
+    # esta formula no aparece directamente en el doc del modelo. ¿Esta correcta?
+    ahorro_diario_porcentual = round((ahorro_diario / gasto) * 100, 2)
+
+    # retornar estos resultados
+    return {"ahorro_diario": ahorro_diario, "ahorro_diario_porcentual": ahorro_diario_porcentual}
+
+
+def calcular_ahorro_por_hora(P: dict, D: dict, x: dict, z: dict, t_hora: int, k_dia: int) -> dict:
+    """
+    Ahorro en el momento t_hora, k_dia, donde estos son parametros dados
+    """
+    gasto = D[(t_hora, k_dia)] * P[(t_hora, k_dia)]
+    ahorro_en_hora = round((P[(t_hora, k_dia)] * D[(t_hora, k_dia)]) - (P[(t_hora, k_dia)]
+                                                                        * ((1 - x[(t_hora, k_dia)]) * D[(t_hora, k_dia)] - z[(t_hora, k_dia)])), 2)
+
+    try:
+        ahorro_en_hora_porcentual = round((ahorro_en_hora / gasto) * 100, 2)
+
+    except ZeroDivisionError:
+        # si no hay gasto en ese dia, hora, no es posible tener ahorro en forma porentual
+        ahorro_en_hora_porcentual = 0
+
+    return {f"ahorro": ahorro_en_hora, f"ahorro_porcentual": ahorro_en_hora_porcentual}
+
+
 if __name__ == '__main__':
     # data = create_data('data/cerro_navia.csv')
     # enero_1 = get_day_data(1, data)

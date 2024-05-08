@@ -68,6 +68,7 @@ def mostrar_ahorros(i):
     z_of_the_day = utils.get_day_data_of_results(i, z)
     I_of_the_day = utils.get_day_data_of_results(i, I)
 
+    print(f'PROGRAM LOGS')
     print('| d | h |  x  |  z  |  I  |')
     print('|---|---|-----|-----|-----|')
     for t in range(1, 25):
@@ -92,10 +93,20 @@ def mostrar_ahorros(i):
     for key, value in ahorros_por_hora.items():
         print(f'hora {key}: {value}')
 
+    print('-------------')
+    utils.buscar_x_uno_anual(x, P)
+
+    print(P[(7, i)])
+
     return render_template('ahorro.html',
                            ahorros_anuales=ahorros_anuales,
                            ahorros_diarios=ahorros_diarios,
                            ahorros_por_hora=ahorros_por_hora)
+
+# negativos interpredso como surplus (exceso) comprar energia y comparar energia para la bateria
+# ahorro diario: numero y paster
+
+# ahorro hora: grafico
 
 
 if __name__ == '__main__':

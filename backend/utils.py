@@ -41,9 +41,13 @@ def pretify_hour(hour: int) -> str:
     # hora 24: 23:00
 
     if 1 <= hour <= 9:
-        return f"0{hour - 1}:00"
+        return f"0{hour - 0}:00"
+
+    elif hour == 24:
+        return "00:00"
+
     else:
-        return f"{hour - 1}:00"
+        return f"{hour - 0}:00"
 
 
 def get_day_data(day: int, data: dict) -> dict:
@@ -161,8 +165,8 @@ def calcular_ahorro_diario(P: dict, D: dict, x: dict, z: dict, k_dia: int) -> di
     gasto = sum([D[(t, k_dia)] * P[(t, k_dia)] for t in T])
 
     # esto lo saque del modelo que mandaste
-    ahorro_diario = round(sum([(P[(t, k_dia)] * D[(t, k_dia)]) - (P[(t, k_dia)] * ((1 - x[(t, k_dia)]) * D[(t, k_dia)] - z[(t, k_dia)]))
-                               for t in T]), 2)
+    ahorro_diario = round(sum([(P[(t, k_dia)] * D[(t, k_dia)]) - (P[(t, k_dia)] * (
+        (1 - x[(t, k_dia)]) * D[(t, k_dia)] + z[(t, k_dia)])) for t in T]), 2)
 
     # esta formula no aparece directamente en el doc del modelo. ¿Esta correcta?
     ahorro_diario_porcentual = round((ahorro_diario / gasto) * 100, 2)
@@ -176,8 +180,8 @@ def calcular_ahorro_por_hora(P: dict, D: dict, x: dict, z: dict, t_hora: int, k_
     Ahorro en el momento t_hora, k_dia, donde estos son parametros dados
     """
     gasto = D[(t_hora, k_dia)] * P[(t_hora, k_dia)]
-    ahorro_en_hora = round((P[(t_hora, k_dia)] * D[(t_hora, k_dia)]) - (P[(t_hora, k_dia)]
-                                                                        * ((1 - x[(t_hora, k_dia)]) * D[(t_hora, k_dia)] - z[(t_hora, k_dia)])), 2)
+    ahorro_en_hora = round((P[(t_hora, k_dia)] * D[(t_hora, k_dia)]) - (P[(t_hora, k_dia)] * (
+        (1 - x[(t_hora, k_dia)]) * D[(t_hora, k_dia)] + z[(t_hora, k_dia)])), 2)
 
     try:
         ahorro_en_hora_porcentual = round((ahorro_en_hora / gasto) * 100, 2)
@@ -187,6 +191,20 @@ def calcular_ahorro_por_hora(P: dict, D: dict, x: dict, z: dict, t_hora: int, k_
         ahorro_en_hora_porcentual = 0
 
     return {f"ahorro": ahorro_en_hora, f"ahorro_porcentual": ahorro_en_hora_porcentual}
+
+
+def buscar_x_uno_anual(x: dict, P: dict) -> None:
+    cantidad = 0
+    T = range(1, 25)  # Conjunto T: {1, 2, ..., 24}
+    K = range(1, 366)  # Conjunto K: {1, 2, ..., 365}
+
+    for k in K:
+        # horas que hay en el dia
+        for t in range(6, 19):
+            if x[(t, k)] > 0 and P[(t, k)] == 0:
+                cantidad += 1
+
+    print(f'cantidad de casos donde x > 0 y P == 0: {cantidad}')
 
 
 if __name__ == '__main__':

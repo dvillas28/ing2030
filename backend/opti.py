@@ -139,7 +139,13 @@ def optimize():
     for t in T:
         for k in K:
             problema.addConstr(x[(t, k)] * D[(t, k)] +
-                               z[(t, k)]*12 <= alpha, name=f"flujo_{t}_{k}")
+                               z[(t, k)]*6 <= alpha, name=f"flujo_{t}_{k}")
+
+    # RESTRICCION, SI x = 0, NO SE USAN LAS BATERIAS
+    M = 10e6
+    for t in T:
+        for k in K:
+            problema.addConstr(P[(t, k)]*M >= x[(t, k)])
 
     # Resolver el problema
     problema.optimize()

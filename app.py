@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from backend import utils
 from backend import data_paths
+from backend import resultados_opti
 
 app = Flask(__name__)
 
@@ -11,6 +12,15 @@ cn_data = utils.get_generacion_electrico(data_paths.CERRO_NAVIA)
 consumo_data = utils.get_consumo_electrico(path=data_paths.CONSUMO_ELECTRICO,
                                            path2=data_paths.CERRO_NAVIA)
 
+# results from the optimization model
+# TODO: completar este glosario
+# problema: costo minimo
+# x: fraccion de energia que es suministrada por las baterias en el periodo t,k
+# z: energia comprada para ser almacenada en baterias en el periodo t,k
+# I: porcentaje de energia en las baterias?
+problema, x, z, I, P, D = resultados_opti.obtener_resultados(
+    path=data_paths.RESULTADOS)
+
 
 @app.route('/')
 def index():
@@ -20,7 +30,7 @@ def index():
 @app.route('/dia_<int:i>')
 def mostrar_grafico(i):
     if i == 0 or i == 366:
-        return render_template('index.html')
+        return render_template('home.html')
 
     data_of_the_day = utils.get_day_data(i, cn_data)
 
@@ -42,9 +52,61 @@ def mostrar_grafico(i):
                            dataset_cn=dataset_cn,
                            dataset_consumo=dataset_consumo)
 
+
 @app.route('/ahorro')
-def mostrar_ahorro(): 
+def mostrar_ahorro():
     return render_template('ahorro.html')
+
+
+@app.route('/ahorro_dia_<int:i>')
+def mostrar_ahorros(i):
+    """
+    I es un dia
+    """
+    # estos no son utilizados en ningun calculo
+    x_of_the_day = utils.get_day_data_of_results(i, x)
+    z_of_the_day = utils.get_day_data_of_results(i, z)
+    I_of_the_day = utils.get_day_data_of_results(i, I)
+
+    print(f'PROGRAM LOGS')
+    print('| d | h |  x  |  z  |  I  |')
+    print('|---|---|-----|-----|-----|')
+    for t in range(1, 25):
+        print(
+            f'| {i} | {t} | {round(x[(t,i)], 2)} | {round(z[(t,i)], 2)} | {round(I[(t,i)], 2)} |')
+
+    ahorros_anuales = utils.calcular_ahorro_anual(problema, P, D)
+    print()
+    print(ahorros_anuales)
+
+    ahorros_diarios = utils.calcular_ahorro_diario(P, D, x, z, i)
+    print()
+    print(ahorros_diarios)
+
+    ahorros_por_hora = {t: utils.calcular_ahorro_por_hora(P=P,
+                                                          D=D,
+                                                          x=x,
+                                                          z=z,
+                                                          t_hora=t,
+                                                          k_dia=i) for t in range(1, 25)}
+    print()
+    for key, value in ahorros_por_hora.items():
+        print(f'hora {key}: {value}')
+
+    print('-------------')
+    utils.buscar_x_uno_anual(x, P)
+
+    print(P[(7, i)])
+
+    return render_template('ahorro.html',
+                           ahorros_anuales=ahorros_anuales,
+                           ahorros_diarios=ahorros_diarios,
+                           ahorros_por_hora=ahorros_por_hora)
+
+# negativos interpredso como surplus (exceso) comprar energia y comparar energia para la bateria
+# ahorro diario: numero y paster
+
+# ahorro hora: grafico
 
 
 if __name__ == '__main__':

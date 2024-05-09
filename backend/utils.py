@@ -92,7 +92,6 @@ def get_consumo_electrico(path: str, path2: str) -> dict:
     # queremos crear un diccionario de la forma
     # {"hours": hours, "costs": costs, "fecha": fecha}
 
-    # TODO: agarrar las fechas de otro lado
     fechas = get_fechas(path2)
 
     with open(path) as file:

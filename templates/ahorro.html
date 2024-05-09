@@ -2,6 +2,9 @@
 <html leng="es">
 
 <head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='js/grafico.js') }}"></script>
   <title>Home</title>
   <link rel="stylesheet" href="static/css/home.css">
 </head>
@@ -9,21 +12,74 @@
 
 <body>
   <header class="header">
-     <a href="/"><img src="static/img/logo.png" alt="logo"></a>
-     <nav class="navbar">
-         <a href="/dia_1">Mi Consumo</a>
-         <a href="#">Mi Perfil</a>    
-     </nav>
-   </header>
+    <a href="/"><img src="static/img/logo.png" alt="logo"></a>
+    <nav class="navbar">
+      <a href="/dia_1">Mi Consumo</a>
+      <a href="#">Mi Perfil</a>
+    </nav>
+  </header>
 
-  <h1 style="text-align: center; margin: 100px 0px;"> Grafico de Ahorro</h1>
-  {{ ahorros_anuales }}<br>
-  {{ ahorros_diarios }}<br>
+  <h2 style="text-align: center; margin: 100px 0px;"> Valores de Ahorro en {{ fecha }}</h2>
 
-  {%for key, value in ahorros_por_hora.items() %}
-  {{ key }}: {{ value }}<br>
-  {% endfor %}
-  
+  <div class="button-container">
+    <button class="button" onclick="window.location.href='/ahorro_dia_{{ dia - 1 }}';">Previous</button>
+    <button class="button" onclick="window.location.href='/ahorro_dia_{{ dia + 1 }}';">Next</button>
+  </div>
+
+  <div class="ahorros_container">
+    <div class="ahorro_anual">
+      Ahorro ANUAL: ${{ ahorros_anuales['ahorro_anual'] }} (aprox. {{ ahorros_anuales['ahorro_porcentual'] }}%)
+      <div class="pieChart">
+        <canvas id="myChartAnual"></canvas>
+
+      </div>
+    </div>
+
+    <div class="ahorro_diario">
+      Ahorro DIARIO {{ fecha }}: ${{ ahorros_diarios['ahorro_diario'] }} (aprox.
+      {{ahorros_diarios['ahorro_diario_porcentual']}}%)
+      <div class="pieChart">
+        <canvas id="myChartDiario"></canvas>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <script>
+
+    createPieChart(elementid = 'myChartDiario',
+      datasetLabel1 = "Ahorro del dia {{ fecha}}",
+      datasetLabel2 = "Resto",
+      title = "Ahorro del dia {{ fecha }}",
+      color1 = 'rgba(255, 99, 132, 0.2)',
+      color2 = 'rgba(54, 162, 235, 0.2)',
+      data1 = "{{ ahorros_diarios['ahorro_diario_porcentual']}}",
+      data2 = "{{ 100 - ahorros_diarios['ahorro_diario_porcentual']}}"
+    )
+
+    createPieChart(elementid = 'myChartAnual',
+      datasetLabel1 = "Ahorro del año",
+      datasetLabel2 = "Resto",
+      title = "Ahorro del año",
+      color1 = 'rgba(255, 99, 132, 0.2)',
+      color2 = 'rgba(54, 162, 235, 0.2)',
+      data1 = "{{ ahorros_anuales['ahorro_porcentual']}}",
+      data2 = "{{ 100 - ahorros_anuales['ahorro_porcentual']}}"
+    )
+
+
+    // grafico del ahorro diaro por hora
+    // createChart(elementId = 'myChart',
+    //   datasetlabels
+    // )
+
+  </script>
+
   <footer class="footer" style="margin-top: 654px;">
     <p>2024 | grupo 69</p>
   </footer>

@@ -17,8 +17,8 @@
 
 .logo {
   display: inline-block;
-  width: 100px; 
-  height: 50px; 
+  width: 100px;
+  height: 50px;
 
 }
 
@@ -30,7 +30,7 @@
   color: white;
   text-decoration: none;
   padding: 30px;
-  font-size: 20px; 
+  font-size: 20px;
   text-align: center;
 }
 
@@ -68,16 +68,16 @@
   margin-left: 200px;
 }
 
-.col1 h2{
+.col1 h2 {
   font-size: 54px;
 }
 
-.col1 h3{
+.col1 h3 {
   font-size: 30px;
   color: #9FBF2A;
   font-weight: 100;
   margin: 20px 0 10px;
- 
+
 }
 
 .col2 {
@@ -105,10 +105,22 @@
 /* footer */
 
 .footer {
-  background-color: #9FBF2A; 
+  background-color: #9FBF2A;
   align-items: center;
 }
 
 .footer p {
   text-align: center;
+}
+
+.pieChart {
+  width: 200px;
+  height: 200px;
+}
+
+.ahorros_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 100px 0;
 }

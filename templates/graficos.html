@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/grafico.js') }}"></script>
     <title>Grafico</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/graph_style.css') }}">
 </head>
@@ -15,12 +16,12 @@
     <header class="header">
         <a href="/"><img src="static/img/logo.png" alt="logo"></a>
         <nav class="navbar">
-            <a href="/ahorro">Mi Ahorro</a>
-            <a href="#">Mi Perfil</a>    
+            <a href="/ahorro_dia_1">Mi Ahorro</a>
+            <a href="#">Mi Perfil</a>
         </nav>
     </header>
 
-    
+
     <div class="row1">
         <div class="col1">
 
@@ -37,62 +38,10 @@
                 <div class="chart"><canvas id="myChart1"></canvas></div>
                 <div class="chart"><canvas id="myChart2"></canvas></div>
             </div>
-            
+
         </div>
     </div>
-    
-
     <script>
-        // funcion para crear los graficos mas rapido
-        function createChart(elementId, datasetlabels, datasetData, titleLabel, xLabel, yLabel, color) {
-            // para cargar los json
-            var labels = JSON.parse(datasetlabels);
-            var data = JSON.parse(datasetData);
-            console.log(labels)
-            console.log(data)
-
-            // Your data for line chart
-            var lineData = {
-                labels: labels,
-                datasets: [{
-                    label: titleLabel,
-                    data: data,
-                    borderColor: color, // Color of the line
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the area under the line
-                    borderWidth: 1, // Width of the line
-                    fill: false // Fill the area under the line
-                }]
-            };
-
-            // Create the line chart
-            var ctx = document.getElementById(elementId).getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: lineData,
-
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: xLabel
-                            }
-                        },
-
-                        y: {
-                            title: {
-                                display: true,
-                                text: yLabel
-                            },
-
-                            ticks: {
-                                beginAtZero: true
-                            },
-                        }
-                    }
-                }
-            });
-        }
 
 
         createChart(elementId = 'myChart1',

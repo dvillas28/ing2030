@@ -13,7 +13,6 @@ consumo_data = utils.get_consumo_electrico(path=data_paths.CONSUMO_ELECTRICO,
                                            path2=data_paths.CERRO_NAVIA)
 
 # results from the optimization model
-# TODO: completar este glosario
 # problema: costo minimo
 # x: fraccion de energia que es suministrada por las baterias en el periodo t,k
 # z: energia comprada para ser almacenada en baterias en el periodo t,k
@@ -53,16 +52,14 @@ def mostrar_grafico(i):
                            dataset_consumo=dataset_consumo)
 
 
-@app.route('/ahorro')
-def mostrar_ahorro():
-    return render_template('ahorro.html')
-
-
 @app.route('/ahorro_dia_<int:i>')
 def mostrar_ahorros(i):
     """
     I es un dia
     """
+    if i == 0 or i == 366:
+        return render_template('home.html')
+
     # estos no son utilizados en ningun calculo
     x_of_the_day = utils.get_day_data_of_results(i, x)
     z_of_the_day = utils.get_day_data_of_results(i, z)
@@ -98,10 +95,14 @@ def mostrar_ahorros(i):
 
     print(P[(7, i)])
 
+    fecha = data_of_the_day = utils.get_day_data(i, cn_data)["fecha"]
+
     return render_template('ahorro.html',
                            ahorros_anuales=ahorros_anuales,
                            ahorros_diarios=ahorros_diarios,
-                           ahorros_por_hora=ahorros_por_hora)
+                           ahorros_por_hora=ahorros_por_hora,
+                           fecha=fecha,
+                           dia=i)
 
 # negativos interpredso como surplus (exceso) comprar energia y comparar energia para la bateria
 # ahorro diario: numero y paster

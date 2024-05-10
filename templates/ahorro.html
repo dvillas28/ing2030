@@ -68,16 +68,16 @@
       titleLabel2 = "gasto con ECOSAVER",
       xlabel = "Dia",
       yLabel = "$USD",
-      color1 = 'gray',
-      color2 = 'green'
+      color1 = 'green',
+      color2 = 'gray'
     )
 
     createPieChart(elementid = 'myChartDiario',
       datasetLabel1 = "Ahorro del dia {{ fecha }}",
       datasetLabel2 = "Resto",
       title = "Ahorro del dia {{ fecha }}",
-      color1 = lightgreen,
-      color2 = 'lightgray',
+      color1 = 'lightgray',
+      color2 = lightgreen,
       data1 = "{{ ahorros_diarios['ahorro_diario_porcentual']}}",
       data2 = "{{ 100 - ahorros_diarios['ahorro_diario_porcentual']}}"
     )
@@ -86,8 +86,8 @@
       datasetLabel1 = "Ahorro del año",
       datasetLabel2 = "Resto",
       title = "Ahorro del año",
-      color1 = lightgreen,
-      color2 = 'lightgray',
+      color1 = 'lightgray',
+      color2 = lightgreen,
       data1 = "{{ ahorros_anuales['ahorro_porcentual']}}",
       data2 = "{{ 100 - ahorros_anuales['ahorro_porcentual']}}"
     )

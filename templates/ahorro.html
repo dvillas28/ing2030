@@ -6,7 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='js/grafico.js') }}"></script>
   <title>Home</title>
-  <link rel="stylesheet" href="static/css/home.css">
+  <link rel="stylesheet" href="static/css/ahorro.css">
 </head>
 
 
@@ -19,43 +19,53 @@
     </nav>
   </header>
 
-  <h2 style="text-align: center; margin: 100px 0px;"> Valores de Ahorro en {{ fecha }}</h2>
+  <div class="box">
+    <div class="col1">
 
-  <div class="button-container">
-    <button class="button" onclick="window.location.href='/ahorro_dia_{{ dia - 1 }}';">Previous</button>
-    <button class="button" onclick="window.location.href='/ahorro_dia_{{ dia + 1 }}';">Next</button>
+      <h2> Valores de Ahorro en {{ fecha }}</h2>
+
+      <div class="button-container">
+        <button class="button" onclick="window.location.href='/ahorro_dia_{{ dia - 1 }}';">Previous</button>
+        <button class="button" onclick="window.location.href='/ahorro_dia_{{ dia + 1 }}';">Next</button>
+      </div>
+
+    </div>
   </div>
 
-  <div class="ahorros_container">
-    <div class="ahorro_anual">
-      Gasto anual sin ECOSAVER: ${{ gasto_anual }}<br>
-      Gasto anual con ECOSAVER: ${{ gasto_anual - ahorros_anuales['ahorro_anual'] }}<br>
-      Ahorro anual con ECOSAVER: ${{ ahorros_anuales['ahorro_anual'] }} (aprox. {{ ahorros_anuales['ahorro_porcentual']
-      }}%)
+  <div class="box2">
+    <div class="row1">
+      <p>Gasto anual sin ECOSAVER: ${{ gasto_anual }}</p>
+      <p>Gasto anual con ECOSAVER: ${{ gasto_anual - ahorros_anuales['ahorro_anual'] }}</p>
+      <p>Ahorro anual con ECOSAVER: ${{ ahorros_anuales['ahorro_anual'] }} (aprox. {{ ahorros_anuales['ahorro_porcentual']}}%)</p>
       <div class="pieChart">
         <canvas id="myChartAnual"></canvas><br>
-
       </div>
-
-
     </div>
 
-    <div class="ahorro_diario">
-      Gasto diario sin ECOSAVER: ${{ gasto_diario }}<br>
-      Gasto diario con ECOSAVER: ${{ (gasto_diario - ahorros_diarios['ahorro_diario'])|round(2) }}<br>
-      Ahorro diario ese dia con ECOSAVER: ${{ ahorros_diarios['ahorro_diario'] }} (aprox.
-      {{ahorros_diarios['ahorro_diario_porcentual']}}%)<br>
+    <div class="row2">
+      <p>Gasto diario sin ECOSAVER: ${{ gasto_diario }}</p>
+      <p>Gasto diario con ECOSAVER: ${{ (gasto_diario - ahorros_diarios['ahorro_diario'])|round(2) }}</p>
+      <p>Ahorro diario ese dia con ECOSAVER: ${{ ahorros_diarios['ahorro_diario'] }} (aprox.{{ahorros_diarios['ahorro_diario_porcentual']}}%)</p>
       <div class="pieChart">
         <canvas id="myChartDiario"></canvas>
-
       </div>
     </div>
+
   </div>
 
-  <div class="multiLineChart">
-    <canvas id="myMultiLineChart"></canvas>
+  <div class="box3">
+
+    <h3> Consumo Anual</h3>
+
+    <div class="multiLineChart">
+      <canvas id="myMultiLineChart"></canvas>
+    </div>
+  
   </div>
 
+
+
+  <!-- la parte de la logica de los graficos -->
   <script>
 
     const lightgreen = 'rgba(0, 128, 0, 0.2)';

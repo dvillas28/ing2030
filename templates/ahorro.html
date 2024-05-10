@@ -28,16 +28,23 @@
 
   <div class="ahorros_container">
     <div class="ahorro_anual">
-      Ahorro ANUAL: ${{ ahorros_anuales['ahorro_anual'] }} (aprox. {{ ahorros_anuales['ahorro_porcentual'] }}%)
+      Gasto anual sin ECOSAVER: ${{ gasto_anual }}<br>
+      Gasto anual con ECOSAVER: ${{ gasto_anual - ahorros_anuales['ahorro_anual'] }}<br>
+      Ahorro anual con ECOSAVER: ${{ ahorros_anuales['ahorro_anual'] }} (aprox. {{ ahorros_anuales['ahorro_porcentual']
+      }}%)
       <div class="pieChart">
-        <canvas id="myChartAnual"></canvas>
+        <canvas id="myChartAnual"></canvas><br>
 
       </div>
+
+
     </div>
 
     <div class="ahorro_diario">
-      Ahorro DIARIO {{ fecha }}: ${{ ahorros_diarios['ahorro_diario'] }} (aprox.
-      {{ahorros_diarios['ahorro_diario_porcentual']}}%)
+      Gasto diario sin ECOSAVER: ${{ gasto_diario }}<br>
+      Gasto diario con ECOSAVER: ${{ (gasto_diario - ahorros_diarios['ahorro_diario'])|round(2) }}<br>
+      Ahorro diario ese dia con ECOSAVER: ${{ ahorros_diarios['ahorro_diario'] }} (aprox.
+      {{ahorros_diarios['ahorro_diario_porcentual']}}%)<br>
       <div class="pieChart">
         <canvas id="myChartDiario"></canvas>
 
@@ -45,15 +52,26 @@
     </div>
   </div>
 
-
-
-
-
+  <div class="multiLineChart">
+    <canvas id="myMultiLineChart"></canvas>
+  </div>
 
   <script>
 
+    createMultiLineChart(elementId = 'myMultiLineChart',
+      datasetlabels = "{{ multiLineData.labels | tojson}}",
+      datasetData1 = "{{ multiLineData.data1 | tojson}}",
+      datasetData2 = "{{ multiLineData.data2 | tojson}}",
+      titleLabel1 = "gasto sin ECOSAVER",
+      titleLabel2 = "gasto con ECOSAVER",
+      xlabel = "Dia",
+      yLabel = "$USD",
+      color1 = 'rgba(255, 99, 132, 1)',
+      color2 = 'rgba(54, 162, 235, 1)'
+    )
+
     createPieChart(elementid = 'myChartDiario',
-      datasetLabel1 = "Ahorro del dia {{ fecha}}",
+      datasetLabel1 = "Ahorro del dia {{ fecha }}",
       datasetLabel2 = "Resto",
       title = "Ahorro del dia {{ fecha }}",
       color1 = 'rgba(255, 99, 132, 0.2)',

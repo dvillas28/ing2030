@@ -19,6 +19,7 @@ consumo_data = utils.get_consumo_electrico(path=data_paths.CONSUMO_ELECTRICO,
 # I: porcentaje de energia en las baterias?
 problema, x, z, I, P, D = resultados_opti.obtener_resultados(
     path=data_paths.RESULTADOS)
+ahorro_todos_los_dias = utils.ahorro_todos_los_dias(P, D, x, z)
 
 
 @app.route('/')
@@ -72,11 +73,11 @@ def mostrar_ahorros(i):
         print(
             f'| {i} | {t} | {round(x[(t,i)], 2)} | {round(z[(t,i)], 2)} | {round(I[(t,i)], 2)} |')
 
-    ahorros_anuales = utils.calcular_ahorro_anual(problema, P, D)
+    ahorros_anuales, gasto_anual = utils.calcular_ahorro_anual(problema, P, D)
     print()
     print(ahorros_anuales)
 
-    ahorros_diarios = utils.calcular_ahorro_diario(P, D, x, z, i)
+    ahorros_diarios, gasto_diario = utils.calcular_ahorro_diario(P, D, x, z, i)
     print()
     print(ahorros_diarios)
 
@@ -91,18 +92,28 @@ def mostrar_ahorros(i):
         print(f'hora {key}: {value}')
 
     print('-------------')
-    utils.buscar_x_uno_anual(x, P)
+    # utils.buscar_x_uno_anual(x, P)
 
-    print(P[(7, i)])
+    for key, value in ahorro_todos_los_dias.items():
+        print(f'dia {key}: ')
 
     fecha = data_of_the_day = utils.get_day_data(i, cn_data)["fecha"]
 
+    # TODO: nos faltan los ahorros diarios de todos los dias
+    multiLineData = {
+        "labels": list(ahorro_todos_los_dias.keys()),
+        "data1": list(ahorro_todos_los_dias.values())[0][0],
+        "data2": list(ahorro_todos_los_dias.values())[0][1]
+    }
     return render_template('ahorro.html',
                            ahorros_anuales=ahorros_anuales,
                            ahorros_diarios=ahorros_diarios,
                            ahorros_por_hora=ahorros_por_hora,
                            fecha=fecha,
-                           dia=i)
+                           dia=i,
+                           gasto_anual=gasto_anual,
+                           gasto_diario=gasto_diario,
+                           multiLineData=multiLineData)
 
 # negativos interpredso como surplus (exceso) comprar energia y comparar energia para la bateria
 # ahorro diario: numero y paster

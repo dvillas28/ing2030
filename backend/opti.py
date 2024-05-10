@@ -15,6 +15,7 @@ def optimize():
     # Parámetros
     F = 40  # Capacidad de carga
     alpha = 20  # Flujo de carga
+    nu = 0.93
 
     # INCORPORAR EL CONSUMO HORARIO "D" (DATOS GENERADOS AL AZAR)
 
@@ -125,10 +126,10 @@ def optimize():
     for k in K:
         for t in range(2, 25):
             problema.addConstr(I[(t, k)] == I[(
-                t-1, k)] + z[(t-1, k)] - x[(t-1, k)] * D[(t-1, k)], name=f"carga_{t}_{k}")
+                t-1, k)] + nu*z[(t-1, k)] - (2-nu)*x[(t-1, k)] * D[(t-1, k)], name=f"carga_{t}_{k}")
         if k >= 2:
             problema.addConstr(I[(1, k)] == I[(
-                24, k-1)] + z[(24, k-1)] - x[(24, k-1)] * D[(24, k-1)], name=f"borde4_{k}")
+                24, k-1)] + nu*z[(24, k-1)] - (2-nu)*x[(24, k-1)] * D[(24, k-1)], name=f"borde4_{k}")
     for k in K:
         for t in T:
             M = 10**6
@@ -159,6 +160,11 @@ def optimize():
     #         print(f"Valor de z({t}, {1}):", z[(t, 1)].x)
     # print("Valor óptimo:", problema.objVal)
 
+    # x: fraccion de demanda suministrada por la bateria
+    # z:
+    # I:
+    # P:
+    # D:
     return problema, x, z, I, P, D
 
 

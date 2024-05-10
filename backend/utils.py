@@ -150,7 +150,7 @@ def calcular_ahorro_anual(valor_optimo, P: dict, D: dict) -> dict:
 
     ahorro_porcentual = round((ahorro_anual / gasto) * 100, 2)
 
-    return {"ahorro_anual": ahorro_anual, "ahorro_porcentual": ahorro_porcentual}
+    return {"ahorro_anual": ahorro_anual, "ahorro_porcentual": ahorro_porcentual}, round(gasto, 2)
 
 
 def calcular_ahorro_diario(P: dict, D: dict, x: dict, z: dict, k_dia: int) -> dict:
@@ -171,7 +171,7 @@ def calcular_ahorro_diario(P: dict, D: dict, x: dict, z: dict, k_dia: int) -> di
     ahorro_diario_porcentual = round((ahorro_diario / gasto) * 100, 2)
 
     # retornar estos resultados
-    return {"ahorro_diario": ahorro_diario, "ahorro_diario_porcentual": ahorro_diario_porcentual}
+    return {"ahorro_diario": ahorro_diario, "ahorro_diario_porcentual": ahorro_diario_porcentual}, round(gasto, 2)
 
 
 def calcular_ahorro_por_hora(P: dict, D: dict, x: dict, z: dict, t_hora: int, k_dia: int) -> dict:
@@ -204,6 +204,29 @@ def buscar_x_uno_anual(x: dict, P: dict) -> None:
                 cantidad += 1
 
     print(f'cantidad de casos donde x > 0 y P == 0: {cantidad}')
+
+
+def ahorro_todos_los_dias(P: dict, D: dict, x: dict, z: dict) -> dict:
+    T = range(1, 25)  # Conjunto T: {1, 2, ..., 24}
+    K = range(1, 366)  # Conjunto K: {1, 2, ..., 365}
+
+    diccionario_dias = {}
+    lista_gastos = []
+    lista_ahorros_numericos = []
+
+    for k in K:
+        diccionario = calcular_ahorro_diario(P, D, x, z, k)
+        gasto_sin_ecosaver = diccionario[1]
+        gasto_con_ecosaver = gasto_sin_ecosaver - \
+            diccionario[0]["ahorro_diario"]
+
+        lista_gastos.append(gasto_sin_ecosaver)  # gasto sin ecosaver
+        lista_ahorros_numericos.append(
+            round(gasto_con_ecosaver, 2))  # gasto con ecosaver
+
+        diccionario_dias[k] = [lista_gastos, lista_ahorros_numericos]
+
+    return diccionario_dias
 
 
 if __name__ == '__main__':

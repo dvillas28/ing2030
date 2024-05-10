@@ -65,17 +65,17 @@ function createMultiLineChart(elementId, datasetlabels, datasetData1, datasetDat
             label: titleLabel1,
             data: data1,
             borderColor: color1, // Color of the first line
-            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color of the area under the first line
+            backgroundColor: 'rgba(211, 211, 211, 0.5)', // Color of the area under the first line
             borderWidth: 1, // Width of the first line
-            fill: false // Fill the area under the first line
+            fill: true // Fill the area under the first line
         },
         {
             label: titleLabel2,
             data: data2,
             borderColor: color2, // Color of the second line
-            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color of the area under the second line
+            backgroundColor: 'light' + color2, // Color of the area under the second line
             borderWidth: 1, // Width of the second line
-            fill: false // Fill the area under the second line
+            fill: true // Fill the area under the second line
         }]
     };
 
@@ -124,8 +124,8 @@ function createPieChart(elementId, datasetLabel1, datasetlabel2, title, color1, 
                     color2
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)'
+                    'green',
+                    'gray'
                 ],
                 borderWidth: 1
             }]

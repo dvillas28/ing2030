@@ -99,14 +99,27 @@
   text-align: center;
 }
 
+
+
+
+
+.box2 {
+  display: flex;
+  justify-content: space-around;
+  margin: 100px 0px;
+}
+
+.row1 {
+  align-items: center;
+}
+
+.row2 {
+  align-items: center;
+}
+
+
+
 .pieChart {
   width: 200px;
   height: 200px;
-}
-
-.ahorros_container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 100px 0;
 }
